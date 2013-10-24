@@ -127,8 +127,7 @@ function WebSocketHandler(hostAddress, wsIndex) {
 
     ws.onmessage = function(event) {
       var data = JSON.parse(event.data);
-      // Can be replace by map
-      gEngine.clear();
+
       for (var index in data) {
         var inPlayer = data[index];
 
@@ -140,12 +139,6 @@ function WebSocketHandler(hostAddress, wsIndex) {
               player.x = inPlayer.dx;
               player.y = inPlayer.dy;
               player.a = inPlayer.da;
-              var life = inPlayer.health + '%';
-              var score = inPlayer.score;
-              $("#life_progress").css({
-                "width": life
-              })
-              $("#score").text(score);
 
               if (wsIndex == primaryCon) { // if it's the primary connection
                 // check whether play is inside the virual box. If not, set virtual point as user current location
@@ -159,8 +152,6 @@ function WebSocketHandler(hostAddress, wsIndex) {
                       wsList[i].send(JSON.stringify(aoihandler.getVirtualPointToJSON(player.userID)));
                     }
                   };
-
-                  mapLoader.drawMap(inPlayer.x, inPlayer.y);
                 }
 
                 // Idea : control the AOI in client side with "Center View". By uncommenting this, enable the "filfill the AOI" in client-side
@@ -178,11 +169,6 @@ function WebSocketHandler(hostAddress, wsIndex) {
               }
 
             }
-            drawRotatedImage(ship, inPlayer);
-            // addPlayerToGraphicEngine(inPlayer);
-
-            // gEngine.clear();
-            // gEngine.processObjects();
             break;
 
           case 4:
@@ -194,7 +180,7 @@ function WebSocketHandler(hostAddress, wsIndex) {
             break;
 
           case 5:
-            drawRotatedImage(bullet, inPlayer);
+            // drawRotatedImage(bullet, inPlayer);
             break;
 
           case 10:
